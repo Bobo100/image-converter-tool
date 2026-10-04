@@ -58,6 +58,8 @@ def image_resize():
     value = Comboxlist.get().split('x')
     dst_width = int(value[0])
     dst_height = int(value[1])
+    # 「600x900」沒有第三段名稱，輸出成 _small_image
+    size_type = value[2] if len(value) > 2 else ''
 
     for index in input_files_listbox.curselection():
         src_filename = input_files[index]
@@ -65,9 +67,9 @@ def image_resize():
         # 取得祖父親資料夾的名稱
         parent_dir = os.path.basename(os.path.dirname(os.path.dirname(src_filename)))
         # 目标图片（缩略图）的命名
-        if (value[2]=='Big'):
+        if (size_type=='Big'):
             thumbnail_filename = os.path.join(os.path.dirname(src_filename), parent_dir + "_big_image.png")
-        elif (value[2]=='Slide'):
+        elif (size_type=='Slide'):
             flag = True
             count = 1
             while(flag):
@@ -78,7 +80,7 @@ def image_resize():
                     count = count + 1
                 else:
                     flag = False
-        elif (value[2]=='Title'):
+        elif (size_type=='Title'):
             thumbnail_filename = os.path.join(os.path.dirname(src_filename), parent_dir + "_title_image.png")
         else:
             thumbnail_filename = os.path.join(os.path.dirname(src_filename), parent_dir + "_small_image.png")
